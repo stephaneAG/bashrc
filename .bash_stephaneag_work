@@ -1,0 +1,4 @@
+## - Work - ##
+# "automated receipts" - short script accepting 4 parameters: <date> ( date of the receipt ) , <value> ( amount of money perceived ), <company> ( client ) & <project> ( what the client paid for )
+#  example usage: stag__Work_addReceipt
+alias stag__Work_addReceipt='/home/stephaneag/Documents/TAFF/AutomatedReceipts/automated_receipts.sh $1 $2 $3 $4'

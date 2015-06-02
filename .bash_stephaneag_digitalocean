@@ -1,0 +1,3 @@
+## - DigitalOcean Web Hosting -
+## connect to the server ( if first connection ever, try with: "ssh root@188.226.162.97" )
+alias stag__webhosting__ssh_connect_to_digital_ocean='ssh stephaneagadmin@188.226.162.97'

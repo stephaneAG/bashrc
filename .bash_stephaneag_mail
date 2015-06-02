@@ -1,0 +1,22 @@
+# few methods for sending a mail from the command line using gmail
+stag_mailexpress(){
+	# send a mail using all the fields but with same text for some of them (...)
+	echo `sendEmail -f seedsodesign@gmail.com -t $1 -u $2 -m $3 -s smtp.gmail.com -o tls=yes -xu seedsodesign -xp <the_password> >/dev/null 2>&1`
+	echo "Mail Express successfully sent!"
+        echo "Recipient(s): $1"
+}
+
+stag_mailfilexpress(){
+        # send a mail using all the fields but with same text for some of them (...)
+        echo `sendEmail -f seedsodesign@gmail.com -t $1 -u "mail avec pièce(s) jointe(s)" -m "ci-joint" -a $2 -s smtp.gmail.com -o tls=yes -xu seedsodesign -xp <the_password> >/dev/null 2>&1`
+	echo "Mail File Express successfully sent!"
+	echo "Recipient(s): $1"
+	echo "Attached file(s) $2"
+}
+
+stag_mailhtmlexpress(){
+        # send a mail using all the fields but with same text for some of them (...)
+        echo `cat /home/stephaneag/Documents/Development/dev__shell/stag_mail_express/html_mail_code.html | sendEmail -f seedsodesign@gmail.com -t $1 -u "HTML Mail" -s smtp.gmail.com -o tls=yes -xu seedsodesign -xp <the_password> >/dev/null 2>&1`
+        echo "Mail HTML Express successfully sent!"
+        echo "Recipient(s): $1"
+}

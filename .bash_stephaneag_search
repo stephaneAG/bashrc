@@ -1,0 +1,3 @@
+## - files search related -
+# list file modified the previous day ( find . -mtime -<num> )
+alias stag__Files_list_yesterday__work_files='find . -mtime -1'

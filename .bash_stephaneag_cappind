@@ -4,3 +4,11 @@ alias stag_cappind='/home/stephaneag/Documents/Development/git_clones/cappind/ca
 alias stag_cappind_current='/home/stephaneag/Documents/Development/git_clones/cappind/examples/stag_gtk-shortcuts.sh' 
 alias stag_cappind_current_2step='cd /home/stephaneag/Documents/Development/git_clones/cappind/examples; ./stag_gtk-shortcuts.sh'
 alias stag_cappind_current_2step_bckgrnd='cd /home/stephaneag/Documents/Development/git_clones/cappind/examples; ./stag_gtk-shortcuts.sh &'
+
+
+## Cappind-related ##
+## a function seem to be necessary to be able to run a .sh script using cappind.py internally from some .desktop's actions 'Exec' setting ( .. )
+stag_cappind_current_infcn(){
+  # use the normal alias internally
+  stag_cappind_current_2step_bckgrnd
+}

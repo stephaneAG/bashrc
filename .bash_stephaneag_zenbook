@@ -1,0 +1,5 @@
+## - Asus Zenbook UX31A specific aliases -
+# check the model
+alias stag_zenbook_model='sudo dmidecode -s system-product-name'
+# LCD - check the current Xorg-server display resolution setting ( by default 96dpi, whereas UX31E Zenbooks have a resolution of ~138dpi )
+alias stag_zenbook_display_resolution='xdpyinfo|grep resolution'

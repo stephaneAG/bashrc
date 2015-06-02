@@ -1,0 +1,18 @@
+## - imagemagik ##
+# downscale any image(s) to 50%
+alias stag__image_halfscale='convert -resize 50%'
+# downscale all files corresponding to the passed parameter ( "*" for all files in a dir ) to 50%
+function stag__image_halfscaleAll(){
+  for f in $@; do convert -resize 50% "$f" "halfscale-$f"; done
+}
+# mass convert tiff files to png
+#alias stag__image_massConvertTiffToPng='for f in *.tif; do  echo "Converting $f"; convert "$f"  "$(basename "$f" .tif).png"; done'
+alias stag__image_massConvertTiffToPng='convert *.tiff -set filename: "%t" %[filename:].png'
+# glue images side by side to make a wiiiide output image
+#  to call like so: stag_image_GlueImagesHorizontally "*.png" out.png
+alias stag__image_GlueImagesHorizontally='montage $1 -geometry +0+0 $2'
+# glue images side by side to make a taaaaall output image
+alias stag__image_GlueImagesVertically='convert $1 $2 -append +append'
+# add a background to an image ( even if it has currently a transparent background, like .PNGs )
+# to call like so: stag_image_addBackground='convert input.png -background "#FF0000" -flatten output.png
+alias stag__image_addBackground='convert $1 -background $2 -flatten $3'

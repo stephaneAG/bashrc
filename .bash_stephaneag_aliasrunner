@@ -1,0 +1,8 @@
+## making an "alias runner" usable from the "ALT-F2" dialog ("Run Application") ##
+stag_runAlias(){
+  echo "stag_runALias command received: $*"
+  CMD="$*"
+  eval "$CMD"
+}
+# the following line is used to override the default bash_completion ( <stuff>[tab][tab] ) in order to use commands as arg instead of dirs/files ( the default )
+complete -c stag_runAlias

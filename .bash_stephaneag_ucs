@@ -13,3 +13,22 @@ stag__Arduino__check_permissions(){
   #groups | grep $(ls -l /dev/* 2>/dev/null | grep /dev/ttyACM0 | cut -d ' ' -f 5 ) > /dev/null ; if [ $? -eq 0 ]; then echo "ALL SET"; else echo "SORRY, NO PERMISSIONS :("; fi
   groups | grep $(ls -l /dev/* 2>/dev/null | grep /dev/$1 | cut -d ' ' -f 5 ) > /dev/null ; if [ $? -eq 0 ]; then echo "ALL SET"; else echo "SORRY, NO PERMISSIONS :("; fi
 }
+
+
+## Arduino directories shothands  ##
+#
+# helpful when hacking around to add linux support for various tools, or debug them
+# the flollowing aliases/fcns 'll either open the Arduino / ArduinoTrinket IDEs most-used config files
+stag__Arduino_IdeConfig()
+{
+  gedit ~/Arduino/hardware/arduino/programmers.txt \
+        ~/Arduino/hardware/arduino/boards.txt \
+        ~/Arduino/hardware/tools/avrdude.conf \
+        ~/.arduino/preferences.txt &
+}
+stag__Arduino_TrinketIdeConfig()
+{
+  gedit ~/Documents/Development/dev__Arduino/trinket-arduino-1.0.5/hardware/arduino/programmers.txt \
+        ~/Documents/Development/dev__Arduino/trinket-arduino-1.0.5/hardware/arduino/boards.txt \
+        ~/Documents/Development/dev__Arduino/trinket-arduino-1.0.5/hardware/tools/avrdude.conf &
+}

@@ -1,3 +1,40 @@
 ## - DigitalOcean Web Hosting -
 ## connect to the server ( if first connection ever, try with: "ssh root@188.226.162.97" )
 alias stag__webhosting__ssh_connect_to_digital_ocean='ssh stephaneagadmin@188.226.162.97'
+
+
+## - DigitalOcean Web Hosting -
+## push an entire directory to the "/var/www/" directory on the webserver hosted by DigitalOcean ( 188.226.162.97 )
+## $1 is the local directory path, $2 ( optional ) may be a path to a sub-directory ( such as "/NeatFramework/" for ex )
+##
+## exs: stag__webhosting__pushdir_to_digital_ocean_www Documents/TAFF/TAFF__BB_DOCS --> will copy the "TAFF__BB_DOCS" directory & the files/dirs within it to the "/var/www/" directory
+##      stag__webhosting__pushdir_to_digital_ocean_www Documents/Development/dev__PHP/first_PHAR_test/myapp/build/ /PHAR_APP/ --> will copy the files within ".../buil/" to "/var/www/PHP_PHAR/"
+##
+## other example of a "fast deploy" for NeatFramework CSS & JS parts:
+##      stag__webhosting__pushdir_to_digital_ocean_www ../Tim_portfolio/assets/css /parts_listr/assets/
+##      stag__webhosting__pushdir_to_digital_ocean_www ../Tim_portfolio/assets/js /parts_listr/assets/
+##
+stag__webhosting__pushdir_to_digital_ocean_www(){
+  scp -r $1 root@188.226.162.97:/var/www$2
+}
+## push a single file anywhere whithin the "/var/www/" directory ( including sub-directories ) on the webserver hosted by DigitalOcean ( 188.226.162.97 )
+## $1 is the local directory path, $2 ( optional ) may be a path to a sub-directory ( such as "/NeatFramework/" for ex )
+stag__webhosting__pushfile_to_digital_ocean_www(){
+  scp $1 root@188.226.162.97:/var/www$2
+}
+## update any modified files to the "/var/www/" directory ( including sub-directories ) on the webserver hosted by DigitalOcean ( 188.226.162.97 )
+## $1 is the local directory path, $2 ( optional ) may be a path to a sub-directory ( such a "/NeatFramework/" for ex )
+##
+## ex: stag__webhosting__updatedir_on_digital_ocean_www parts_listr / --> used from the ".../dev__PHP/" directory, 'll update the entire "parts_listr" directory found on the webserver ( at "/var/www/" )
+##
+## other example, when working from a project root directory locally & updating all the files needed:
+##      stag__webhosting__updatedir_on_digital_ocean_www . /parts_listr
+stag__webhosting__updatedir_on_digital_ocean_www(){
+  rsync -ruv $1 root@188.226.162.97:/var/www$2
+}
+## same as above but also deleting hosted files that are no more present locally
+##
+## ex: stag__webhosting__updatecleandir_on_digital_ocean_www parts_listr / --> same as the above example but this time also doing a "cleanup" ( removing distant files no more present locally )
+stag__webhosting__updatecleandir_on_digital_ocean_www(){
+   rsync -ru --delete $1 root@188.226.162.97:/var/www$2
+}

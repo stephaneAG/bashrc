@@ -8,3 +8,15 @@ alias stag_qclean='rm ./*.o; echo "*.o files succefully removed"; rm ./moc*; ech
 # clean a Qt project directory ( '*.o' & 'moc*' files ) & rebuild the '*.pro' file
 alias stag_qcleanproj='rm ./*.o; echo "*.o files succefully removed"; rm ./moc*; echo "moc* files successfully removed"; qmake -project; echo "PROJECT DIRECTORY IS NOW CLEAN & .pro FILE GENERATED"'
 alias stag_qcleanbuild='rm ./*.o; echo "*.o files succefully removed"; rm ./moc*; echo "moc* files successfully removed"; qmake -project; qmake; make; echo "PROJECT BUILD READY"'
+
+
+## Qt helpers ##
+
+# generates a *.pro file with the current directory name so the resulting file name is '<current_directory>.pro' from a basic.pro file located in the current directory
+#
+# no check if done before doing so -> they may be added in the future ( ... )
+# the name used may seem silly , but as I'm currently using a global var, it's better as is to prevent accidental overwrite of 3rd party vars not involved in the current fcn ( ... )
+
+stag_qbasicpro(){
+  theQtProFileNameToGenerate="`basename $PWD`.pro"; cp basic.pro $theQtProFileNameToGenerate
+}

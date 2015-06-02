@@ -1,0 +1,5 @@
+## - Text Editors & IDE aliases -
+# open a file with sublime_text
+alias stag_sublimeopen='/home/stephaneag/Documents/Development/TextEditors_\&_IDEs/Sublime_Text_2/sublime_text'
+# display the ASCII table
+alias stag_ascii_table='man 7 ascii'

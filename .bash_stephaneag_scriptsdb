@@ -1,0 +1,166 @@
+## scriptsDb ( temps dir used by some scripts through following functions ) ##
+# get the content of a file with <key_name> as filename
+stag__scriptsDb_get(){
+  #echo "Hello stag__scriptsDb_get !"
+  # debug
+  #echo "generated filepath: /home/stephaneag/Documents/Development/dev__shell/scriptsDb/$1" 
+  # make sure the file corresponding to the key passed exist
+  if [ ! -f /home/stephaneag/Documents/Development/dev__shell/scriptsDb/$1 ]
+  then
+    echo "keynotfound"
+  else
+    # the file exist: we return its content
+    cat /home/stephaneag/Documents/Development/dev__shell/scriptsDb/$1
+    #echo "keyfound"
+  fi
+}
+# get the content of a file with <key_name> as filename & then delete it
+stag__scriptsDb_getClean(){
+  #echo "Hello stag__scriptsDb_getClean"
+  # debug
+  #echo "generated filepath: /home/stephaneag/Documents/Development/dev__shell/scriptsDb/$1"
+  # make sure the file corresponding to the key passed exist
+  if [ ! -f /home/stephaneag/Documents/Development/dev__shell/scriptsDb/$1 ]
+  then
+    echo "keynotfound"
+  else
+    # the file exist: return its content
+    cat /home/stephaneag/Documents/Development/dev__shell/scriptsDb/$1
+    # delete the file
+    rm /home/stephaneag/Documents/Development/dev__shell/scriptsDb/$1
+  
+    # the above seems not always workig ?!
+    # the file exist: get its content
+    #keyValue=`cat /home/stephaneag/Documents/Development/dev__shell/scriptsDb/${1}`
+    # delete the file
+    #rm /home/stephaneag/Documents/Development/dev__shell/scriptsDb/$1
+    # return its content
+    #echo $keyValue
+  
+  fi
+}
+# create/update the content of a file with <key_name> as name
+# TODO: provide a default namespace if the key passed doesn't contain a <prefix_with_dot>
+stag__scriptsDb_set(){
+  #echo "Hello  stag__scriptsDb_set !"
+  # debug
+  #echo "generated filepath: /home/stephaneag/Documents/Development/dev__shell/scriptsDb/$1"
+  #echo "value to be written to key: $2"
+  # create/update the corresponding file content
+  echo $2 > /home/stephaneag/Documents/Development/dev__shell/scriptsDb/$1
+  # display log
+  echo -n "namespace '${1%%.*}' was added key '${1#*.}' with content: ["
+  echo -n $2
+  echo "]"
+}
+# check the presence of a particular key
+stag__scriptsDb_exist(){
+  #echo "Hello stag__scriptsDb_exist !"
+  # debug
+  #echo "generated filepath: /home/stephaneag/Documents/Development/dev__shell/scriptsDb/$1"
+  # make sure the file corresponding to the key passed exist
+  if [ ! -f /home/stephaneag/Documents/Development/dev__shell/scriptsDb/$1 ]
+  then
+    echo "keynotfound"
+  else
+    echo "keyfound"
+  fi
+}
+# TODO: check the type of the key ( numeric, bool, string )
+stag__scriptsDb_type(){
+  echo "Hello stag__scriptsDb_type !"
+}
+# TODO: delete all the keys for (a) particular namespace ( user-defined & default ) or all
+stag__scriptsDb_cleanNamespace(){
+  # TODO: for a "gnome-terminal" variant using the current fcn : if no params are passed, we remove all the keys of the default namespace ( aka gnomeTermTweak )
+  # ( if one of the params is the default namespace, its keys 'll be deleted )
+  
+  #if we are passed arguments 
+  if (( $# != 0 ))
+  then
+    # loop over the namespaces passed
+    for namespace in "$@"
+    do
+      # loop over the existing keys
+      for keyname in /home/stephaneag/Documents/Development/dev__shell/scriptsDb/*
+      do
+        # get the key
+        thekey="${keyname##*/}"
+        # get the namespace from the key
+        thenamespace="${thekey%%.*}"
+        # find if key namespace matches the namespace passed
+        if [ "$namespace" == "$thenamespace" ]
+        then
+          # remove the key from scriptsDb
+          rm /home/stephaneag/Documents/Development/dev__shell/scriptsDb/$thekey
+          # inform that a key was removed from a namespace
+          echo "namespace '${namespace}' was removed key '${thekey#*.}'"
+        fi
+      done
+      # inform that all keys belonging to a namespace were remeovde, & thus that the namespace no longer exist
+      echo "namespace '${namespace}' was removed all its keys & thus no longer exist"
+    done
+  fi
+}
+# TODO: delete all the keys passed as parameters
+stag__scriptsDb_clean(){
+  #echo "Hello stag__scriptsDb_clean !"
+  # if params are passed, clean all keys wich names matche one of the passed params
+  
+  #if we are passed arguments 
+  if (( $# != 0 ))
+  then
+    # loop over the existing keys
+    #for keyname in /home/stephaneag/Documents/Development/dev__shell/scriptsDb/*
+    # loop over the keys passed
+    for keyname in "$@"
+    do
+      # delete existing key wich name matches the key passed
+      if [ -f /home/stephaneag/Documents/Development/dev__shell/scriptsDb/$keyname ]
+      then
+        # remove the key from scriptsDb
+        rm /home/stephaneag/Documents/Development/dev__shell/scriptsDb/$keyname
+        # inform that a key was removed from a namespace
+        echo "namespace '${keyname%%.*}' was removed key '${keyname#*.}'"
+      fi
+    done
+  fi 
+}
+# list the keys currently set ( if a 'full' argument is passed, we display the keys as well as their values )
+# TODO: support a "--format" options to display keys in a formatted manner ( & colored! :D )
+stag__scriptsDb_list(){
+  #echo "Hello stag__scriptsDb_list !"
+  #ls -l /home/stephaneag/Documents/Development/dev__shell/scriptsDb
+  for keyname in /home/stephaneag/Documents/Development/dev__shell/scriptsDb/*
+  do
+    # check if we have any argument
+    if (( $# != 0 ))
+    then
+      #echo "The arguments passed were: $@ ."
+	  	# check if our first argument is '--full'
+	  	if [ "$1" = "--full" ]
+	  	then
+	  	  # we are passed the "--full" argument: show both the keys & their values
+	  	  # display key name ( we strip the path from it )
+	  	  key="${keyname##*/}"
+        echo -n "[$key]"
+        # content delimiter start
+        echo -n " > ["
+        # display key value ( we pipe to tr to replace any linefeed by a space )
+        cat "$keyname" | tr -d "\n"
+	  	  # content delimiter end
+	  	  echo "]"
+	  	else
+	  	  # we have no valid argument: only show the keys
+        # display key name
+        key="${keyname##*/}"
+        echo "[$key]"
+	  	fi
+    else
+      # we have no argument: only show the keys
+      # display key name
+      key="${keyname##*/}"
+      echo "[$key]"
+    fi
+  done
+}

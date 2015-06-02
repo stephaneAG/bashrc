@@ -1,0 +1,6 @@
+# "cappind" - 3rd party utility to provide Ubuntu's appindicators for shell scripts ( cloned in /Documents/development/git__clones/cappind/ )
+alias stag_cappind='/home/stephaneag/Documents/Development/git_clones/cappind/cappind.py'
+# "cappind"-related: custom Ubuntu panel ( top right corner of the screen by default ) launched on startup
+alias stag_cappind_current='/home/stephaneag/Documents/Development/git_clones/cappind/examples/stag_gtk-shortcuts.sh' 
+alias stag_cappind_current_2step='cd /home/stephaneag/Documents/Development/git_clones/cappind/examples; ./stag_gtk-shortcuts.sh'
+alias stag_cappind_current_2step_bckgrnd='cd /home/stephaneag/Documents/Development/git_clones/cappind/examples; ./stag_gtk-shortcuts.sh &'

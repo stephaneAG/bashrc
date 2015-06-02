@@ -1,0 +1,7 @@
+## Repos Infos for Madtoyslab. localhost interface ##
+#
+# provides a quick way to add a "repoinfos.tef" file to a dir
+stag__addRepoInfos()
+{
+  gedit "${1}"/repoinfos.tef
+}

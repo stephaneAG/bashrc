@@ -1,0 +1,2 @@
+# toggle ON / OFF the ability for the laptop to run when its lid is closed ( without prompting for a password on lid open )
+alias stag__laptop_toggle-run_lid_closed='/home/stephaneag/Documents/Development/dev__shell/lid_stuff_wip/toggle__run_lid_closed.sh'

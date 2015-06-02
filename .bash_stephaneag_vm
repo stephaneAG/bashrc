@@ -1,0 +1,4 @@
+## - Know if CPU hardware virtualization is supported -
+# returns "vmx" (Intel) or "svm" (AMD) among the other results if supported
+# else, see if you have an option in the BIOS to enable Hardware Virtualization (VTx / AMD-v), if no, when can't run Mac OS X in vitualbox :/
+alias stag_support_CPU_hardware_virtualization="egrep '(vmx|svm)' /proc/cpuinfo"

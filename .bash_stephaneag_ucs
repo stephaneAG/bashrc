@@ -1,0 +1,5 @@
+## - Micro-controllers related helpers -
+# connect to a device using picocom ( R: Ctrl+A Ctrl+X to quit it )
+alias stag__uControllers_picocomdefault='picocom --baud 9600 --flow n /dev/ttyACM0'
+# same as the above but specifying the port & the baudrate such as -> " stag__uControllers_picocom 9600 /dev/ttyACM0 "
+alias stag__uControllers_picocom='picocom --flow n --baud $1'

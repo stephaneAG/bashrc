@@ -1,0 +1,29 @@
+## - Bluetooth-related helpers -
+#
+# R: * Android Goophone Bluetooth MAC Address: 58:12:43:64:0A:41
+#    * digg: -> 'blueman-' & 'bluez-' commands
+#            -> "SIM Access Profile" ( & find a way to establish calling/receiving calls on Ubuntu ;P )
+#
+# get the configuration of the system's bluetooth device(s)
+alias stag__Bluetooth__get_system_devices='hciconfig'
+# get infos on the system's radio-frequencies devices
+alias stag__Bluetooth__get_system_RF_devices='rfkill list'
+# init a bluetooth inquiry ( advertise ? )
+alias stag__Bluetooth__inquiry='hcitool inq'
+# init a bluetooth scan ( to get a list of discovered bluetooth peripherals )
+alias stag__Bluetooth__scan='hcitool scan'
+# list a bluetooth peripheral's capacities ( the only argument is the peripheral's bluetooth MAC address )
+alias stag__Bluetooth__get_peripheral_capacities='sudo hcitool info $1'
+# check if a bluetooth peripheral supports Object PUSH
+alias stag__Bluetooth__get_ObjectPUSH_peripherals='sdptool search OPUSH'
+# upload some files to a bluetooth peripheral ( arg is MAC Addr ) // untested ( yet -> software to find )
+alias stag__Bluetooth__uploadfiletest='obext_test -b $1'
+# browse a bluetooth peripheral ( arg is MAC Addr )
+alias stag__Bluetooth__browse_peripheral='sdptool browse $1'
+# setup a serial connection to the bluetooth peripheral ? ( 1st arg is MAC Addr, 2nd arg is channel )
+alias stag__Bluetooth__RFconn__Serial_connect='rfcomm connect rfcomm0 $1 $2'
+# check the status of the bluetooth peripheral serial connection
+# or obvisouly stg else ( don't know, I'm tyred, and I DID miswrite :/ .. )
+alias stag__Bluetooth__RFconn__Serial_status='rfcomm0: $1 channel $2 clean'
+# control stuff via serial over bluetooth ( "Serial port" bluetooth peripheral option )
+# Q: would it be possible to do so with a phone ? ( .. )  

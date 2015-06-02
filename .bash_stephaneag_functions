@@ -1,0 +1,6 @@
+# stephaneag functions - zenbook_ubuntu - 2013 / 2015
+
+# as it seems I can't remind this simple one to gracefully quit an app:
+stag_gracefulquit(){
+  sudo kill -9 "$(pidof $1)"
+}

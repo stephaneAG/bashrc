@@ -1,0 +1,5 @@
+# 
+stag_camelcase(){
+	#echo "$1"| sed 's/.*/\L&/; s/[a-z]*/\u&/g' | tr -d ' ' # needs th be passed ONE argument ( like ./<fcn_name> "I AM A SENTENCE TO WORK WITH" )
+	echo "$*"| sed 's/.*/\L&/; s/[a-z]*/\u&/g' | tr -d ' ' 
+}

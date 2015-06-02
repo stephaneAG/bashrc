@@ -1,0 +1,17 @@
+## - Common system aliases -
+# know the bit architecture of the current system
+alias stag_archbit='uname -a'
+# give infos on the currently installed video card
+alias stag_videocardinfos='sudo lshw -C video'
+# [ for latest version of Ubuntu ] check if the video card is correctly supported
+alias stag_videocardgraphicaccel='/usr/lib/nux/unity_support_test -p'
+# get the number of CPU(s)
+alias stag_CPUs='cat /proc/cpuinfo | grep processor | wc -l'
+# open a folder in the file manager
+alias stag_open='xdg-open'
+# get the size of a folder
+alias stag_foldersize='du -sh'
+# see the running processes
+alias stag_runningprocesses='ps -aux'
+# print infos about ubuntu
+alias stag_ubuntuinfos='lsb_release -a && unity --version'

@@ -1,0 +1,5 @@
+## Quick Japanese Hiragana & Katakana colored overview right in the terminal ##
+stag__Japmap()
+{
+  ~/Documents/Development/dev__JapaneseHacks/japmap_colored_straight.sh
+}

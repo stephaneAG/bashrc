@@ -1,0 +1,3 @@
+## - .desktop files helpers -
+# go to the .desktop file directory ( mainly add "actions" stuff to them in order to have neat right click shortcuts available when clicking an application's icon in the dashbar )
+alias stag__Ubuntu_desktopFiles_dir='cd ~/.local/share/applications/'

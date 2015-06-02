@@ -1,3 +1,16 @@
 ## - files search related -
 # list file modified the previous day ( find . -mtime -<num> )
 alias stag__Files_list_yesterday__work_files='find . -mtime -1'
+
+
+## Finding Files Helpers ##
+stag_find_infilename_full(){
+  grep "$1" . -R -n
+}
+stag_find_infilename_namesonly(){
+  grep "$1" . -R -n -l
+}
+# "$1" -> stuff we're looking for, "$2" -> directory to be used as root directory of the search
+stag_find_indirsandfiles(){
+  rgrep --color=always "$1" "$2"
+}

@@ -1,0 +1,16 @@
+### Added by the Heroku Toolbelt
+export PATH="/usr/local/heroku/bin:$PATH"
+
+### Added manually by Tef while installing NodeJS by hand
+export PATH="~/.nodes/current/bin:$PATH"
+
+### Added manually by Tef to support MobileChromeAPps
+## add sdk/tools
+export PATH="/home/stephaneag/Documents/Development/3rd_party_libs/adt-bundle-linux-x86_64-20140321/sdk/tools:$PATH"
+#export PATH="/home/stephaneag/Documents/Development/3rd_party_libs/adt-bundle-linux-x86_64-20140702/sdk/tools:$PATH"
+## add sdk/platform-tools
+export PATH="/home/stephaneag/Documents/Development/3rd_party_libs/adt-bundle-linux-x86_64-20140321/sdk/platform-tools:$PATH"
+#export PATH="/home/stephaneag/Documents/Development/3rd_party_libs/adt-bundle-linux-x86_64-20140702/sdk/platform-tools:$PATH"
+
+### Added manually by Tef to support Laravel
+export PATH="~/.composer/vendor/bin/:$PATH"

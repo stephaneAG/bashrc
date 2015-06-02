@@ -1,0 +1,7 @@
+## electronicWaroll ##
+stag__warollElectroniCat(){
+  # generate a warolelectronicat (  or stg else ;p )
+  /home/stephaneag/Documents/Development/dev__shell/Waroll_ElectroniCat/electronicWaroll.sh $1 > /dev/null 2>&1;
+  # launch eye of gnome ( image viewer ) for the user to save the result if it fits its tastes
+  eog /home/stephaneag/Documents/Development/dev__shell/Waroll_ElectroniCat/electronicWaroll.png > /dev/null 2>&1
+}

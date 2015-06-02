@@ -1,0 +1,18 @@
+## cron helpers ##
+#
+# even shorter than the below stuff:
+#
+# add a crontab: ( R: the "-" is STDOUT on Linux )
+# (crontab -u stephaneag -l ; echo "*/3 *  * * *   DISPLAY=:0 notify-send 'A Title' 'Hello World' -i /usr/share/pixmaps/debian-logo.png") | crontab -u stephaneag -
+# 
+# remove a crontab:
+# crontab -u stephaneag -l | grep -v "DISPLAY=:0 notify-send 'A Title' 'Hello World' -i /usr/share/pixmaps/debian-logo.png" | crontab -u stephaneag -
+#
+# R:
+# backup a cron file:
+# crontab -l > bckp_file
+#
+# add stuff to it ( overwrite ):
+# crontab -l > overriden_file
+# stuff >> overriden_file
+#

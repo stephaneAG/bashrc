@@ -1,0 +1,7 @@
+## - randtype - ##
+# simulate a random typing setup so that it seems a fast-type writer is typing an making some mistakes ( quickly fixed ) on the way .. ;D
+#   ex: " echo "Les astuces de tef pour faire croire qu'il a taffé pendant plus longtemps" | randtype -m 20 -t 8,20000 "
+#alias stag__fakeType='echo $1 | randtype -m 20 -t 8,20000' # DOESNT WORK -> check later inside a function ( .. )
+alias stag__fakeType='echo $1 | tee | randtype -m 20 -t 8,20000'
+# the following may be hardcoded, but it works flawlessly
+alias stag__fakeType_EmotivSDKHack=' cat REPLICATA_EmotivDeveloper_1.0.0.5/infos.tef | randtype -m 20 -t 8,20000'

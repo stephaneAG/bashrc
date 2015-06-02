@@ -1,0 +1,3 @@
+## - JSON validation -
+# check the validity of a json file
+alias stag__JSON_validate='jsonlint $1'

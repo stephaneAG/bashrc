@@ -4,3 +4,21 @@
 stag_gracefulquit(){
   sudo kill -9 "$(pidof $1)"
 }
+
+# a test fcn accepting a '--help' argument
+stag_fcn_with_help_param()
+{
+	if (( $# != 0 ))
+	  then
+	  	# echo "The arguments passed were: $@ ."
+	  	if [ "$1" = "--help" ]
+	  	  then
+	  	  	echo "Syntax is: <some stuff> <some other stuff> < and a little more stuff> ."
+	  	  else
+	  	  	echo "Yay ! I'm actually doing something ! :D ..."
+	  	  	echo ".. annnnd I'm done."
+	  	fi
+	  else
+	  	echo "No argument received !"
+	fi
+}

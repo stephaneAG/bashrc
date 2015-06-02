@@ -1,0 +1,6 @@
+## - IOIO-OTG related helpers -
+# list the detected IOIO devices ( need a special udev rule -> see github repo )
+alias stag__IOIO_list_devices='ls /dev/IOIO*'
+# connect to a IOIO device using serial connection over USB
+#alias stag__IOIO_helloIOIOConsole='java -Dioio.SerialPorts=IOIO0 -jar ../Documents/Development/3rd_party_libs/IOIO_OTG_lib/HelloIOIOConsole.jar'
+alias stag__IOIO_helloIOIOConsole='java -Dioio.SerialPorts=IOIO0 -jar /home/stephaneag/Documents/Development/3rd_party_libs/IOIO_OTG_lib/HelloIOIOConsole.jar'

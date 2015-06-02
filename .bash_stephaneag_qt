@@ -1,0 +1,10 @@
+## - Qt cli commands that I always forgot -
+# know where the qmake program in use is located
+alias stag_wichqmake='which qmake'
+# know the version of the qmake program and where the Qt version used is located
+alias stag_qmakeversion='qmake -version'
+# clean a Qt project directory ( '*.o' & 'moc*' files )
+alias stag_qclean='rm ./*.o; echo "*.o files succefully removed"; rm ./moc*; echo "moc* files successfully removed"; echo "PROJECT DIRECTORY IS NOW CLEAN"'
+# clean a Qt project directory ( '*.o' & 'moc*' files ) & rebuild the '*.pro' file
+alias stag_qcleanproj='rm ./*.o; echo "*.o files succefully removed"; rm ./moc*; echo "moc* files successfully removed"; qmake -project; echo "PROJECT DIRECTORY IS NOW CLEAN & .pro FILE GENERATED"'
+alias stag_qcleanbuild='rm ./*.o; echo "*.o files succefully removed"; rm ./moc*; echo "moc* files successfully removed"; qmake -project; qmake; make; echo "PROJECT BUILD READY"'

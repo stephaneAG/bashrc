@@ -1,0 +1,3 @@
+## - Windaube stuff accessed from the /media/stephaneag/OS HDD partition -
+## display the current content of Windaube's version of the '/etc/hosts' file
+alias stag__windaube_cathosts='cat /media/stephaneag/OS/Windows/System32/Drivers/etc/hosts'

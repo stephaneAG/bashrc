@@ -1,0 +1,7 @@
+## - GNU screen related stuff -
+# handle multiple screen configuration files
+# $1 is the screen config filename
+stag__screen()
+{
+  screen -c /home/stephaneag/Documents/Development/dev__GNU_screen/$1
+}

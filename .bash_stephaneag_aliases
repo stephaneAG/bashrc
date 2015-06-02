@@ -1,0 +1,30 @@
+# bash_stephaneag_aliases - zenbook aliases v 0.3
+# This file is used to store alisases for command often used
+# It is sourced on startup by "~/.bashrc"
+
+# by StephaneAG - 2013 / 2015
+
+
+## - aliases file related fcns -
+# print the aliases in the terminal
+alias stag_printaliases='cat ~/.bash_stephaneag_aliases'
+# print the commands used within the alias or a fcn ( the latter is nicer because it display the type as well as the source )
+#alias stag_printaliases_alias_source='alias'
+#   example output: " alias stag__PDF_editor='/opt/MasterPDFEditor/master-pdf-editor &' "
+alias stag_print_alias_source='type'
+# the following line is used to override the default bash_completion ( <stuff>[tab][tab] ) in order to use commands as arg instead of dirs/files ( the default )
+complete -c stag_print_alias_source
+#   example output: " stag__PDF_editor is aliased to `/opt/MasterPDFEditor/master-pdf-editor &' "
+# TO DO: work on a colored version of the above  & also add help to each of them ( maybe a fcn that prints the line(s) above an alias if they start with some specific stuff ex: "##help#" )
+# source both aliases & fcn aliases
+alias stag_sourceboth='stag_sourcealiases && stag_sourcefcnaliases'
+# source the aliases ( makes recent changes available in the current console )
+alias stag_sourcealiases='. ~/.bash_stephaneag_aliases'
+# source the functions aliases ( makes recent changes available in the current console )
+alias stag_sourcefcnaliases='. ~/.bash_stephaneag_functions'
+# edit the aliases file with vim
+alias stag_vimaliases='sudo vim ~/.bash_stephaneag_aliases'
+# edit the functions aliases file with vim
+alias stag_vimfcnaliases='sudo vim ~/.bash_stephaneag_functions'
+# edit the aliases file with sublime text
+alias stag_sublimealiases='sudo /home/stephaneag/Documents/Development/TextEditors_\&_IDEs/Sublime_Text_2/sublime_text ~/.bash_stephaneag_aliases'

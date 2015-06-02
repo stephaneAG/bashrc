@@ -1,0 +1,63 @@
+## - Android Development related helpers -
+# list android devices
+alias stag__ADT_list_android_devices='adb devices'
+# launch the ADT eclipse dev environment
+alias stag__ADT='/home/stephaneag/Documents/Development/3rd_party_libs/adt-bundle-linux-x86_64-20140321/eclipse/eclipse' # quick & easy launch ;)
+# build an android project in debug mode ( from the passed directory: the root directory of the project ) -> creates a *.apk in the bin/ directory of the project named "<project-name>-debug.apk"
+# the file is already signed with the debug key & has been aligned with zipalign
+alias stag__ADT_debug_compile='ant debug $1'
+# install & run on device ( connected via USB ) -> navigate to the SDK's platform-tools dir & install the *.apk on the device: the *.apk is to be passed as parameter
+alias stag__ADT_debug_runondevice='/home/stephaneag/Documents/Development/3rd_party_libs/adt-bundle-linux-x86_64-20140321/sdk/platform-tools/adb -d install $1'
+#
+# For command-line project creation & update, use the following ( also, the 'buil.xml' file is needed for the above 'debug_compile' command )
+# To produce a build.xml file & be able to use with the command-line a project previsouly created & managed with eclipse, we just have to generate it using the below command
+alias stag__ADT_EclipseToCmdline='/home/stephaneag/Documents/Development/3rd_party_libs/adt-bundle-linux-x86_64-20140321/sdk/tools/android update project --path $1'
+#
+# list available build targets & corresponding IDs
+alias stag__ADT_list_build_targets='/home/stephaneag/Documents/Development/3rd_party_libs/adt-bundle-linux-x86_64-20140321/sdk/tools/android list targets'
+# create an android project -> args, in order: <build_target_ID> | <project_name> | <path/to/project> | <activity_name> | <package_namespace>
+alias stag__ADT_create_project='/home/stephaneag/Documents/Development/3rd_party_libs/adt-bundle-linux-x86_64-20140321/sdk/tools/android --target $1 -name $2 --path $3 --activity $4 --package $5'
+
+# launch the device interactive shell
+alias stag__ADT_shell='adb shell'
+# launch an app present on the device --> TO MAKE GENERIC (!)
+# Nb: the minimum required is the following, the below version defining the intent as well -> " adb shell am start com.example.myubuntuandroid/com.example.myubuntuandroid.MyUbuntuAndroidAppActivity "
+alias stag__ADT_launch_app_on_device='adb shell am start -a android.intent.action.MAIN com.example.myubuntuandroid/com.example.myubuntuandroid.MyUbuntuAndroidAppActivity'
+# get the realtime logs from the device
+alias stag__ADT_logcat='adb logcat'
+# get the realtime logs from the device concerning a particular app ( ex. arg: com.example.myubuntuandroid/.MyUbuntuAndroidAppActivity )
+alias stag__ADT_logcat_app='adb logcat | grep $1'
+# get the realtime logs: version dedicated to the GooPhone ( R: adb -s 0123456789ABCDEF logcat | grep DetailsActivity | grep -v TaskRecord )
+#alias stag__ADT_logcat_GooPhone='adb -s 0123456789ABCDEF logcat | grep $1 | grep -v TaskRecord'
+alias stag__ADT_logcat_GooPhone_QuickMove='adb -s 0123456789ABCDEF logcat | grep DetailsActivity | grep -v TaskRecord'
+# copy a file to the device sd card
+alias stag__ADT_SDcard_copy_to='adb push $1 /sdcard/'
+# copy a file from the device sd card
+alias stag__ADT_SDcard_copy_from='adb pull /sdcard/$1 $2'
+
+
+
+## - Android Mobile Chrome Apps Development related helpers - // WIP: -> not yet tested, and maybe args ( $1 & $2 ) needs to be used to cd to the root dir of the project first, then issue cmds [ then .. ]
+alias stag__MobileChromeApps_githubrepo='google-chrome --new-window "https://github.com/GoogleChrome/chrome-app-samples#mobile-support"'
+# create a new CCA ( Cordova(/Phonegap) Chrome App ) using the (empty) directory passed
+alias stag__MobileChromeApps_create='cca create $1'
+# create a new ( Cordova(/Phonegap) Chrome App ) symlinking to an ( existing ) ( Desktop ) Chrome App
+alias stag__MobileChromeApps_create_symlinking='cca create $1 --link-to=$2/manifest.json'
+# create a new ( Cordova(/Phonegap) Chrome App ) copying file from an ( existing ) ( Desktop ) Chrome App
+alias stag__MobileChromeApps_create_copying='cca create $1 --copy-from=$2/manifest.json'
+# setup the Android emulator
+alias stag__MobileChromeApps_emulatorsetup='android avd'
+# build & run the project/app on a ( previously setup ) Android emulator
+alias stag__MobileChromeApps_emulate='cca emulate android $1'
+# build & run the project/app on a connected Android device
+alias stag__MobileChromeApps_runondevice='cca run android $1'
+# publish to Google Play ( Android App Store )
+alias stag__MobileChromeApps_release='cca prepare; $1/platforms/android/cordova/build --release; '
+
+
+
+## - Goophone DroidBuntu related helpers -
+# connect to the "Goophone DroidBuntu" using VNC
+alias stag__goophoneDroidBuntu_connect_VNC='vncviewer 192.168.1.9:0'
+# connect to it using SSH
+alias stag__goophoneDroidBuntu_connect_SSH='ssh ubuntu@192.168.1.9'

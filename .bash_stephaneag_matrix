@@ -1,0 +1,4 @@
+# init the matrix with xwinwrap
+stag_matrix(){
+	xwinwrap -o 1 -st -sp -s -fs -b -ni -- /usr/lib/xscreensaver/glmatrix -window-id WID
+}

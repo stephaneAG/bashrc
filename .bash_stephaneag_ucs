@@ -3,3 +3,13 @@
 alias stag__uControllers_picocomdefault='picocom --baud 9600 --flow n /dev/ttyACM0'
 # same as the above but specifying the port & the baudrate such as -> " stag__uControllers_picocom 9600 /dev/ttyACM0 "
 alias stag__uControllers_picocom='picocom --flow n --baud $1'
+
+
+## Arduino-related ##
+## check the serial permissions if in troubles
+## $1 is the port parameter, and can be "ttyACM0", "ttyACM1", ..
+## If it displays "ALL SET", we're fine, else, we're in troubles ..
+stag__Arduino__check_permissions(){
+  #groups | grep $(ls -l /dev/* 2>/dev/null | grep /dev/ttyACM0 | cut -d ' ' -f 5 ) > /dev/null ; if [ $? -eq 0 ]; then echo "ALL SET"; else echo "SORRY, NO PERMISSIONS :("; fi
+  groups | grep $(ls -l /dev/* 2>/dev/null | grep /dev/$1 | cut -d ' ' -f 5 ) > /dev/null ; if [ $? -eq 0 ]; then echo "ALL SET"; else echo "SORRY, NO PERMISSIONS :("; fi
+}

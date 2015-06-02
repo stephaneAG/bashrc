@@ -1,0 +1,305 @@
+## gnome-terminal helpers ##
+# get the Profile currently in use
+stag__gnomeTerm_getProfile(){
+  # create a temp file to save the current Profile into
+  tmpfile="$HOME/.current_gnome_profile"
+  # save the current gnome-terminal config
+  gnome-terminal --save-config=$tmpfile
+  # get the Profile out of it
+  ENTRY=`grep ProfileID < $tmpfile`
+  # delete the temp file
+  rm $tmpfile
+  # clean the Profile
+  TERM_PROFILE=${ENTRY#*=}
+  # return it
+  #echo -n "$TERM_PROFILE"
+  # mod if we're using, like me, multiple terminal windows, with the same profile: 'll only display the first one listed
+  # we replace any linefeed by a space
+  NLF_TERM_PROFILE=`echo "$TERM_PROFILE" | tr '\n' ' '`
+  # we strip everything after the first space
+  CLEAN_TERM_PROFILE=${NLF_TERM_PROFILE%% *}
+  # return it
+  echo "$CLEAN_TERM_PROFILE"
+}
+# debug version of a future "camToTermBckgrnd" script - startScript
+stag__gnomeTerm_camToTermBackground_startScript(){
+  echo 'gnomeTerm camToTermBckgrnd startScript !'
+  # backup term conf to scriptsDb
+  stag__gnomeTerm_confToScriptsDb camToTermBckgrnd
+  # run cronScript once ( to nullify the need of a placeholder image before overriding the term conf )
+  stag__gnomeTerm_camToTermBackground_cronScript
+  # override term conf to use a background type of image
+  gconftool-2 --set /apps/gnome-terminal/profiles/$currTermProfile/background_type --type string image
+  # override term conf to set the path of the image to be used as term background
+  
+  # moved within the cron function
+  #camImagePath='/home/stephaneag/Documents/Development/dev__shell/gnomeTerminalCliTweak/camToTermBckground/camImg.png'
+  #gconftool-2 --set /apps/gnome-terminal/profiles/$currTermProfile/background_image --type string $camImagePath
+  
+  # override term conf to adjust the transparency of the background
+  gconftool-2 --set /apps/gnome-terminal/profiles/$currTermProfile/background_darkness --type float 0.5 # 0.85
+  # override term conf to prevent background scrolling
+  gconftool-2 --set /apps/gnome-terminal/profiles/$currTermProfile/background_type --type bool false
+  # add cronScript to the crontab [ with refresh delay specified as param of the startScript ]
+  #(crontab -u stephaneag -l ; echo "*/3 *  * * *   stag__gnomeTerm_camToTermBackground_cronScript") | crontab -u stephaneag -
+  # the above doesn't allow aliases to be used in the crontab environment ( add  > /dev/null 2>&1 at the command end if needed )
+  #(crontab -u stephaneag -l ; echo "*/3 *  * * *   /usr/bin/bash -lc 'stag__gnomeTerm_camToTermBackground_cronScript'") | crontab -u stephaneag -
+  # the above doesn't do the trick to allow aliases to work in the crontab environment
+  #(crontab -u stephaneag -l ; echo "*/2 *  * * *   bash -c '. ~/.bashrc; . ~/.bash_stephaneag_functions; stag__gnomeTerm_camToTermBackground_cronScript'") | crontab -u stephaneag -
+  # the above seems to be able to take picture, also to glitch them, but the terminal doesn"t reflect the changes, nb: it may have come from a needed change in code .. I hope ?
+  #(crontab -u stephaneag -l ; echo "*/2 *  * * *   bash -c '. /home/stephaneag/.bashrc; stag__gnomeTerm_camToTermBackground_cronScript'") | crontab -u stephaneag -
+  # the above also seems to suffer from the unsourced fcns ( & i'm not taking about .bashrc ), or still, some gconftool-2 bugs ..
+  
+  # last used ~ correct
+  #(crontab -u stephaneag -l ; echo "*/2 *  * * *   bash -c '. ~/.bashrc; . ~/.bash_stephaneag_functions; stag__gnomeTerm_camToTermBackground_cronScript'") | crontab -u stephaneag - 
+  # trying to use our alias from an external .sh file to bypass the gconftool-2 bug with cron
+  (crontab -u stephaneag -l ; echo "*/2 *  * * *   /home/stephaneag/Documents/Development/dev__shell/gnomeTerminalCliTweak/camToTermBckground/cronJob.sh") | crontab -u stephaneag -
+  
+  # same result as the above: none on gconftool :/
+  #(crontab -u stephaneag -l ; echo "*/2 *  * * *  env DISPLAY=:0.0 /home/stephaneag/Documents/Development/dev__shell/gnomeTerminalCliTweak/camToTermBckground/cronJob.sh") | crontab -u stephaneag -
+  
+  # to test after:
+  # shopt -s expand_aliases
+}
+# debug version of a future "camToTermBckgrnd" script - cronScript
+stag__gnomeTerm_camToTermBackground_cronScript(){
+
+  # trying to make gconftool work from within cron - doesn't seem to solve the pb either ..
+  #if [ -z "$DBUS_SESSION_BUS_ADDRESS" ] ; then
+  #  # this is because of gconftool bug in cron
+  #  TMP=~/.dbus/session-bus
+  #  export $(grep -h DBUS_SESSION_BUS_ADDRESS= $TMP/$(ls -1t $TMP | head -n 1))
+  #  echo $DBUS_SESSION_BUS_ADDRESS >> $LOG
+  #fi
+  
+  # same as above
+  # Grab the DBUS_SESSION_BUS_ADDRESS variable from nautilus's environment
+  #eval $(tr '\0' '\n' < /proc/$nautilus_pid/environ | grep '^DBUS_SESSION_BUS_ADDRESS=')
+  # export it so that child processes will inherit it
+  #export DBUS_SESSION_BUS_ADDRESS
+
+  # same as above
+  #user=$( whoami )
+  #pid=$( pgrep -u $user gnome-panel )
+
+  #for dbusenv in $pid; do
+  #  DBUS_SESSION_BUS_ADDRESS=$( grep -z DBUS_SESSION_BUS_ADDRESS /proc/$pid/environ | sed -e 's/DBUS_SESSION_BUS_ADDRESS=//' )
+  #  data="DBUS_SESSION_BUS_ADDRESS=$DBUS_SESSION_BUS_A DDRESS"
+  #  eval " export $data"
+  #done
+
+  echo 'gnomeTerm camToTermBckgrnd cronScript !'
+  storagePath='/home/stephaneag/Documents/Development/dev__shell/gnomeTerminalCliTweak/camToTermBckground'
+  tempImg_storagePath='/home/stephaneag/Documents/Development/dev__shell/gnomeTerminalCliTweak/camToTermBckground/00000001.png'
+  camImg_storagePath='/home/stephaneag/Documents/Development/dev__shell/gnomeTerminalCliTweak/camToTermBckground/camImg.png'
+  # get a frame from the cam feed & save it to a specified location
+  #mplayer -vo png -frames 1 tv:// # not used until I can specify the output filepath ! :/
+  # the " > /dev/null 2>&1" at the end silence the vlc output, while the "-Vdummy" flag suppress that annoying popup window when recording
+  vlc -I dummy v4l2:///dev/video0 --video-filter scene --no-audio --scene-path $storagePath \
+  --scene-prefix image_prefix --scene-format png vlc://quit --run-time=1 -Vdummy > /dev/null 2>&1
+  # rename the file for further use
+  mv "${storagePath}/image_prefix00001.png" $tempImg_storagePath  
+  # do further work on that image
+  # glitch it a little bit ;p
+  # we need a jpg for the glitch, so we convert our original .png
+  convert $tempImg_storagePath "${storagePath}/00000001.jpg"
+  # then, we remove our png as in a 1st step, we'll be working with only a single image ( & not the merged result of original + glitched  )
+  rm $tempImg_storagePath
+  # we finish by glitching our image, & specifying the output name of our temp file ( again ;p )
+  jpglitch -a 70 -s 4 -i 31 -o $tempImg_storagePath "${storagePath}/00000001.jpg"
+  # as the above 'll write to "00000001.png", we can delete "00000001.jpg"
+  rm "${storagePath}/00000001.jpg"
+  # convert 00000001.png -gravity center -background black -extent 1920x1080 camImg.png
+  #convert $tempImg_storagePath -gravity center -background transparent -extent 1920x1080 $camImg_storagePath
+  # more convenient than the above due to the way gnome-terminal handles transparency with images TODO: find how to specify a semi-transparent color with imageMagik
+  # also, R available -gravity params: NorthWest, North, NorthEast, West, Center, East, SouthWest, South, SouthEast
+  # TODO: extract the original backgroudn_darkness & use that as the alpha value of the image container ;D
+  transparency="0.5"
+  scriptNamespace="camToTermBckgrnd"
+  currBckgrndDrknss=`stag__scriptsDb_get ${scriptNamespace}.backgroundDarkness`
+  if [ "$currBckgrndDrknss" != "keynotfound" ]
+  then
+    # override default transparency using the original background transparency set
+    transparency="${currBckgrndDrknss}"
+    echo "transparency used for the image container: ${transparency}"
+  fi
+  #convert $tempImg_storagePath -gravity NorthEast -background "rgba(0, 0, 0, ${transparency})" -extent 1920x1080 $camImg_storagePath
+  # working on a version with a top right border
+  #convert $tempImg_storagePath -gravity NorthEast -region 10x10-40+20 -background "rgba(0, 0, 0, ${transparency})" -extent 1920x1080 $camImg_storagePath
+  convert $tempImg_storagePath -gravity NorthEast -background "rgba(0, 0, 0, ${transparency})" -extent 1920x1080 $camImg_storagePath
+  # remove the temp image
+  rm $tempImg_storagePath
+  #rm "${storagePath}/image_prefix00001.png"
+  
+  # update gnome-terminal background image
+  currTermProfile=`stag__scriptsDb_get ${scriptNamespace}.profile`
+  #gconftool-2 --set /apps/gnome-terminal/profiles/$currTermProfile/background_image --type string $camImg_storagePath # seems not being called
+  # specify an non-existing or black temp image path (  this forces gnome-terminal to refresh the displayed image if the path is the same as before ) 
+  DISPLAY=:0 /usr/bin/gconftool-2 --set /apps/gnome-terminal/profiles/$currTermProfile/background_image --type string "$storagePath/blackornonexisting.jpg"
+  DISPLAY=:0 /usr/bin/gconftool-2 --set /apps/gnome-terminal/profiles/$currTermProfile/background_image --type string $camImg_storagePath
+  # R: DEBUG: the above 2 calls a also set in cronJob.sh, also added to the crontab to debug using grconftool-2 with cron
+  # debug - correctly executed from cron
+  DISPLAY=:0 notify-send "camToTermBckgrnd" "Image should have changed by now ( we finished a cron loop )" -i /usr/share/pixmaps/debian-logo.png
+}
+# debug version of a future "camToTermBckgrnd" script - endScript
+stag__gnomeTerm_camToTermBackground_endScript(){
+  echo 'gnomeTerm camToTermBckgrnd endScript !'
+  # remove cronScript from crontab or restore crontab
+  #crontab -u stephaneag -l | grep -v "stag__gnomeTerm_camToTermBackground_cronScript" | crontab -u stephaneag -
+  crontab -u stephaneag -l | grep -v "/home/stephaneag/Documents/Development/dev__shell/gnomeTerminalCliTweak/camToTermBckground/cronJob.sh" | crontab -u stephaneag -
+  
+  # restore term conf from scriptsDb
+  stag__gnomeTerm_confFromScriptsDb camToTermBckgrnd
+}
+# debug version of a future "imgToTermBckgrnd" script
+# none yet ! :D
+# backup some of the current gnome-terminal profile config key values
+# nb: we can pass a name to be used as the script namespace, if not 'gnomeTermTweak' 'll be used by default
+stag__gnomeTerm_confToScriptsDb(){
+  # default app namespace override
+  scriptNamespace='gnomeTermTweak'
+  # check if we have any argument
+  if (( $# != 0 ))
+  then
+    # use the first argument provided as script namespace
+    scriptNamespace="$1"
+    # debug: display overriden script namespace
+    echo "using '${scriptNamespace}' as script namespace within scriptsDb"
+  fi
+  
+  # get the current gnome-terminal profile
+  currTermProfile=`stag__gnomeTerm_getProfile`
+  # store it in scriptsDb
+  stag__scriptsDb_set $scriptNamespace.profile $currTermProfile
+  # get the type of background of a profile
+  currBckgrndType=`gconftool-2 --get /apps/gnome-terminal/profiles/${currTermProfile}/background_type`
+  # store it in scriptsDb
+  stag__scriptsDb_set $scriptNamespace.backgroundType $currBckgrndType
+  # get the scrolling capabilities of background of a profile
+  currBckgrndScroll=`gconftool-2 --get /apps/gnome-terminal/profiles/${currTermProfile}/scroll_background`
+  # store it in scriptsDb
+  stag__scriptsDb_set $scriptNamespace.backgroundScroll $currBckgrndScroll
+  # get the transparency setting of background of a profile
+  currBckgrndDrknss=`gconftool-2 --get /apps/gnome-terminal/profiles/${currTermProfile}/background_darkness`
+  # store it in scriptsDb
+  stag__scriptsDb_set $scriptNamespace.backgroundDarkness $currBckgrndDrknss
+  # get the background image of a profile
+  currBckgrndImg=`gconftool-2 --get /apps/gnome-terminal/profiles/${currTermProfile}/background_image`
+  # store it in scriptsDb
+  stag__scriptsDb_set $scriptNamespace.backgroundImage $currBckgrndImg
+  # get the foreground color of a profile
+  currFrgrndCol=`gconftool-2 --get /apps/gnome-terminal/profiles/${currTermProfile}/foreground_color`
+  # store it in scriptsDb
+  stag__scriptsDb_set $scriptNamespace.foregroundColor $currFrgrndCol
+  # get the background color of a profile
+  currBckgrndCol=`gconftool-2 --get /apps/gnome-terminal/profiles/${currTermProfile}/background_color`
+  # store it in scriptsDb
+  stag__scriptsDb_set $scriptNamespace.backgroundColor $currBckgrndCol
+  # get the usage of the theme colors
+  currUseThemeCol=`gconftool-2 --get /apps/gnome-terminal/profiles/${currTermProfile}/use_theme_colors`
+  # store it in scriptsDb
+  stag__scriptsDb_set $scriptNamespace.useThemeColors $currUseThemeCol
+  
+  echo 'gnome-terminal conf param(s) saved to scriptsDb'
+}
+
+# nb: we can pass a name to be used as the script namespace, if not 'gnomeTermTweak' 'll be used by default
+stag__gnomeTerm_confFromScriptsDb(){
+  # default app namespace override
+  scriptNamespace='gnomeTermTweak'
+  # check if we have any argument
+  if (( $# != 0 ))
+  then
+    # use the first argument provided as script namespace
+    scriptNamespace="$1"
+    # debug: display overriden script namespace
+    echo "using '${scriptNamespace}' as script namespace within scriptsDb"
+  fi
+  
+  # get the current profile from scriptsDb
+  currTermProfile=`stag__scriptsDb_get ${scriptNamespace}.profile`
+  # use it in gnome-terminal for the below commands ( as $currTermProfile )
+  # handle error if not found ( display msg & then exit script )
+  if [ "$currTermProfile" == "keynotfound" ]
+  then
+    # trying to find a profile saved maybe within the default namespace
+    echo "no gnome-terminal profile found in scriptsDb with the namespace specified (${scriptNamespace})"
+    exit 1
+  else
+    # remove the key from scriptsDb
+    stag__scriptsDb_clean $scriptNamespace.profile
+  fi
+  
+  # get the type of background of a profile
+  currBckgrndType=`stag__scriptsDb_get ${scriptNamespace}.backgroundType`
+  if [ "$currBckgrndType" != "keynotfound" ]
+  then
+    #echo "gnome-terminal key found in scriptsDb: ${currBckgrndType}"
+    # use it in gnome-terminal if != "keynotfound"
+    gconftool-2 --set /apps/gnome-terminal/profiles/$currTermProfile/background_type --type string $currBckgrndType
+    # remove the key from scriptsDb
+    stag__scriptsDb_clean $scriptNamespace.backgroundType
+  fi
+  # get the scrolling capabilities of background of a profile
+  currBckgrndScroll=`stag__scriptsDb_get ${scriptNamespace}.backgroundScroll`
+  if [ "$currBckgrndScroll" != "keynotfound" ]
+  then
+    #echo "gnome-terminal key found in scriptsDb: ${currBckgrndScroll}"
+    # use it in gnome-terminal if != "keynotfound"
+    gconftool-2 --set /apps/gnome-terminal/profiles/$currTermProfile/scroll_background --type bool $currBckgrndScroll
+    # remove the key from scriptsDb
+    stag__scriptsDb_clean $scriptNamespace.backgroundScroll
+  fi
+  # get the transparency setting of background of a profile
+  currBckgrndDrknss=`stag__scriptsDb_get ${scriptNamespace}.backgroundDarkness`
+  if [ "$currBckgrndDrknss" != "keynotfound" ]
+  then
+    #echo "gnome-terminal key found in scriptsDb: $currBckgrndDrknss with content: ${currBckgrndDrknss}"
+    # use it in gnome-terminal if != "keynotfound"
+    gconftool-2 --set /apps/gnome-terminal/profiles/$currTermProfile/background_darkness --type float $currBckgrndDrknss
+    # remove the key from scriptsDb
+    stag__scriptsDb_clean $scriptNamespace.backgroundDarkness
+  fi
+  # get the background image of a profile
+  currBckgrndImg=`stag__scriptsDb_get ${scriptNamespace}.backgroundImage`
+  if [ "$currBckgrndImg" != "keynotfound" ]
+  then
+    #echo "gnome-terminal key found in scriptsDb: ${currBckgrndImg}"
+    # use it in gnome-terminal if != "keynotfound"
+    gconftool-2 --set /apps/gnome-terminal/profiles/$currTermProfile/background_image --type string $currBckgrndImg
+    # remove the key from scriptsDb
+    stag__scriptsDb_clean $scriptNamespace.backgroundImage
+  fi
+  # get the foreground color of a profile
+  currFrgrndCol=`stag__scriptsDb_get ${scriptNamespace}.foregroundColor`
+  if [ "$currFrgrndCol" != "keynotfound" ]
+  then
+    #echo "gnome-terminal key found in scriptsDb: ${currFrgrndCol}"
+    # use it in gnome-terminal if != "keynotfound"
+    gconftool-2 --set /apps/gnome-terminal/profiles/$currTermProfile/foreground_color --type string $currFrgrndCol
+    # remove the key from scriptsDb
+    stag__scriptsDb_clean $scriptNamespace.foregroundColor
+  fi
+  # get the background color of a profile
+  currBckgrndCol=`stag__scriptsDb_get ${scriptNamespace}.backgroundColor`
+  if [ "$currBckgrndCol" != "keynotfound" ]
+  then
+    #echo "gnome-terminal key found in scriptsDb: ${currBckgrndCol}"
+    # use it in gnome-terminal if != "keynotfound"
+    gconftool-2 --set /apps/gnome-terminal/profiles/$currTermProfile/background_color --type string $currBckgrndCol
+    # remove the key from scriptsDb
+    stag__scriptsDb_clean $scriptNamespace.backgroundColor
+  fi
+  # get the usage of the theme colors
+  currUseThemeCol=`stag__scriptsDb_get ${scriptNamespace}.useThemeColors`
+  if [ "$currUseThemeCol" != "keynotfound" ]
+  then
+    #echo "gnome-terminal key found in scriptsDb: ${currUseThemeCol}"
+    # use it in gnome-terminal if != "keynotfound"
+    gconftool-2 --set /apps/gnome-terminal/profiles/$currTermProfile/use_theme_colors --type bool $currUseThemeCol
+    # remove the key from scriptsDb
+    stag__scriptsDb_clean $scriptNamespace.useThemeColors
+  fi
+  
+  echo 'gnome-terminal conf param(s) restored from scriptsDb'
+}

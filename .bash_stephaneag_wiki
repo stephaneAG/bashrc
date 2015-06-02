@@ -1,0 +1,7 @@
+# search & read Wikipedia via DNS
+stag_wiki(){
+	wiki_result=`dig +short txt $1.wp.dg.cx`
+	echo "From Wikipedia, about $1"
+	echo "$wiki_result"
+	echo ""
+}

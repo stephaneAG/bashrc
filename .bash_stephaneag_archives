@@ -1,0 +1,5 @@
+## - Compressing & Extracting files with tar.gz -
+# create a tar archive ( ex: "  tar cvzf stephaneAG__qt_window_program_base.tar.gz qt_window_program_base  " )
+alias stag_tar_cvzf='tar cvzf'
+# unzip a *.tgz archive
+alias stag_tar_xzvf='tar xzvf'

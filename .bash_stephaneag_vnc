@@ -1,0 +1,11 @@
+## - VNC-related helpers -
+# init the iPad as display :2 using tightvncserver
+alias stag__vnc__init_iPad_display_at2='vncserver -alwaysshared :2 -geometry 1024x768'
+# stop the tightvncserver that was using the iPad as display :2
+alias stag__vnc__stop_iPad_display_at2='vncserver -kill :2'
+# init an application on the iPad screen ( display :2 ) - syntax: " stag__vnc__run_on_iPad_at_:2 ./path/to/app"
+alias stag__vnc__run_on_iPad_at2='DISPLAY=:2'
+# get the winId of Desktop on display :2 - syntax: " stag__vnc__get_desktop_windowId_int_at stephaneagbook:2 "
+alias stag__vnc__get_desktop_windowId_int_at2='stag_winidfromname_v3 :2' # depend on other alias & external script ( winid_getter_v3.sh )
+# launch a vncviewer instance pointing to the display :2 ( the one used with VNC on the iPad )
+alias stag__vnc__vncview_iPad_display_at2='vncviewer :2'

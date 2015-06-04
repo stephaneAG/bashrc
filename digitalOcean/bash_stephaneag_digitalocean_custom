@@ -1,0 +1,21 @@
+# bash_stephaneag_digitalocean_custom v0.1a
+#
+# Customisation file used on the DigitalOcean Webserver hosting some stuff of mine ( 5$/month ! :D )
+#
+# by StephaneAG - 2014
+
+# now in blue text ..
+echo -e '\033[01;34m'
+echo ""
+echo "------------------------------------"
+echo "DigitalOcean - StephaneAG Dev"
+echo "Welcome back, Tef !"
+echo "------------------------------------"
+echo ""
+# .. and back to normal color
+echo -e '\033[00m'
+
+# setup a custom command prompt ( $PS1 on Debian / Ubuntu )
+#PS1='[ \033[01;34mDigitalOcean Webserver: `hostname -I`\033[00m] ${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\n\$ '
+# the above works fine, is pretty neat and very useful, but I wish to separate a little more the prompt from the results of my previous command(s), so here's the why
+PS1='\n[ \033[01;34mDigitalOcean Webserver: `hostname -I`\033[00m] ${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\n\$ '

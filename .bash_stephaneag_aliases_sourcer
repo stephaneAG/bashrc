@@ -1,0 +1,24 @@
+# the current file is itself sourced at the end of the .bashrc file
+# it's used to source all the necessary aliases for a system
+# it's only goal is to help in keeping the sourcing easier to maintain
+# 
+# syntax
+#if [ -f ~/.bash_stephaneag_functions ]; then  . ~/.bash_stephaneag_functions; fi
+# or with a quick helper
+# stag_test(){ if [ -f "${1}" ]; then  . "${1}"; fi }
+#
+# Nb: we could have a helper to add calls to the first one to the current file for each aliases file on the repo
+
+
+# quick helper
+stag_checkAndSource(){ if [ -f "${1}" ]; then  . "${1}"; fi }
+
+# we only want file starting with ".bash_stephaneag_" & different than ".bash_stephaneag_aliases_sourcer"
+# nb: we could also exclude the ".bash_stephaneag_aliases"/".bash_stephaneag_functions", but these 'll be updated
+
+## - aliases sets -
+stag_checkAndSource
+stag_checkAndSource
+stag_checkAndSource
+stag_checkAndSource
+stag_checkAndSource

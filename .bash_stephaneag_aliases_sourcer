@@ -36,9 +36,17 @@ stag_checkAndSource .bash_stephaneag_ioiootg
 stag_checkAndSource .bash_stephaneag_japanese
 stag_checkAndSource .bash_stephaneag_json
 stag_checkAndSource .bash_stephaneag_laptoplid
+stag_checkAndSource .bash_stephaneag_madtoyslab
+stag_checkAndSource .bash_stephaneag_mail
+stag_checkAndSource .bash_stephaneag_matrix
+stag_checkAndSource .bash_stephaneag_network
+stag_checkAndSource .bash_stephaneag_ps1
+stag_checkAndSource .bash_stephaneag_qt
+stag_checkAndSource .bash_stephaneag_randtype
+stag_checkAndSource .bash_stephaneag_scriptsdb
+stag_checkAndSource .bash_stephaneag_search
 stag_checkAndSource 
 stag_checkAndSource 
 stag_checkAndSource 
 stag_checkAndSource 
-stag_checkAndSource 
-stag_checkAndSource 
+stag_checkAndSource .bash_stephaneag_path

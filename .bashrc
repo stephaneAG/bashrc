@@ -9,13 +9,8 @@ force_color_prompt=yes
 
 ## - additional tweaks -
 
-# add the necessary path(s) to our $PATH
-if [ -f ~/.bash_stephaneag_path ]; then
-    . ~/.bash_stephaneag_path
-fi
+# source our updated $PATH
+if [ -f ~/.bash_stephaneag_path ]; then . ~/.bash_stephaneag_path fi
 
-# Tef Edit: added loading of personal aliases/functions file(s)
-if [ -f ~/.bash_stephaneag_aliases ]; then
-    . ~/.bash_stephaneag_aliases
-fi
-
+# source the many organized aliases
+if [ -f ~/.bash_stephaneag_aliases_sourcer ]; then . ~/.bash_stephaneag_aliases_sourcer fi

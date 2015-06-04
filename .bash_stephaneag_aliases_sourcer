@@ -17,6 +17,9 @@ stag_checkAndSource(){ if [ -f "${1}" ]; then  . "${1}"; fi }
 # nb: we could also exclude the ".bash_stephaneag_aliases"/".bash_stephaneag_functions", but these 'll be updated
 
 ## - aliases sets -
+stag_checkAndSource .bash_stephaneag_aliases
+stag_checkAndSource .bash_stephaneag_functions
+
 stag_checkAndSource .bash_stephaneag_aliasrunner
 stag_checkAndSource .bash_stephaneag_android
 stag_checkAndSource .bash_stephaneag_archives
@@ -45,8 +48,14 @@ stag_checkAndSource .bash_stephaneag_qt
 stag_checkAndSource .bash_stephaneag_randtype
 stag_checkAndSource .bash_stephaneag_scriptsdb
 stag_checkAndSource .bash_stephaneag_search
-stag_checkAndSource 
-stag_checkAndSource 
-stag_checkAndSource 
-stag_checkAndSource 
+stag_checkAndSource .bash_stephaneag_signal
+stag_checkAndSource .bash_stephaneag_systemcommons
+stag_checkAndSource .bash_stephaneag_ucs
+stag_checkAndSource .bash_stephaneag_vm
+stag_checkAndSource .bash_stephaneag_vnc
+stag_checkAndSource .bash_stephaneag_warollelectronicat
+stag_checkAndSource .bash_stephaneag_wiki
+stag_checkAndSource .bash_stephaneag_windaube
+stag_checkAndSource .bash_stephaneag_work
+stag_checkAndSource .bash_stephaneag_zenbook
 stag_checkAndSource .bash_stephaneag_path

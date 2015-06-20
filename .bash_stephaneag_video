@@ -1,0 +1,14 @@
+## -- ffmpeg ----------------
+# R: see https://trac.ffmpeg.org/wiki/How%20to%20speed%20up%20/%20slow%20down%20a%20video
+#
+# double the speed of a video & strip the sound
+stag__video_speedup2x(){ ffmpeg -i "$1" -an -filter:v "setpts=0.5*PTS" "$2"; }
+#
+#x4 the speed of a video & strip the sound
+# Nb: the -an strips the sound, while the -r 96 is original framerate ( 24 ) * 4
+# this one won't drop frames to achieve the desired speed by specifying a higher output frame rate than the  input
+stag__video_speedup4x(){ ffmpeg -i "$1" -an -r 96 -filter:v "setpts=0.25*PTS" "$2" }
+#
+# slow motion a video
+stag__video_speedup4x(){ ffmpeg -i "$1" -filter:v "setpts=2.0*PTS" "$2" }
+## --------------------------

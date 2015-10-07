@@ -1,0 +1,6 @@
+# some helpers that currently couldn't fit anywhere else
+
+# flash the terminal screen, so as to alert something not's right ..
+# usage : flasher
+flasher () { while true; do printf \\e[?5h; sleep 0.8; printf \\e[?5l; read -s -n1 -t0.8 && break; done; }
+# Nb: digg if it's possible / how it is to execute the above command on ALL opened terminals

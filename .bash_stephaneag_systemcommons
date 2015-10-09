@@ -15,3 +15,7 @@ alias stag_foldersize='du -sh'
 alias stag_runningprocesses='ps -aux'
 # print infos about ubuntu
 alias stag_ubuntuinfos='lsb_release -a && unity --version'
+# print infos about the compositing manager
+stag__sc_compManagerInfos(){
+  echo -e "XDG_CURRENT_DESKTOP: $XDG_CURRENT_DESKTOP\nGDMSESSION: $GDMSESSION\n===="; wmctrl -m
+}

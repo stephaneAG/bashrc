@@ -1,10 +1,53 @@
 # some helpers that currently couldn't fit anywhere else
 
-# flash the terminal screen, so as to alert something not's right ..
+# flash ( invert background color of ) a terminal window, so as to alert something not's right ..
 # usage : flashterm
 flashterm () { while true; do printf \\e[?5h; sleep 0.8; printf \\e[?5l; read -s -n1 -t0.8 && break; done; }
 # Nb: digg if it's possible / how it is to execute the above command on ALL opened terminals
 
-# flash the entire screen ( aka all the OS ), so as to alert something not's right ..
+# flash ( invert background color of ) ALL terminal ( or other programs ) windows, so as to alert something not's right ..
+# nb: this 'll currently mess up with the layering order of the windows visible on the screen(s)
+#     BUT, we could maybe get the layering order of all the windows, & then, based on that,
+#     focus + invert the terminal ones while just focusing the "intermediary" windows ?
+#     => you get the idea ;p
+# also, we could trap something / reset the invert on exit to be cleaner, & there's also a delay for wins to change color
+# usage : flashallwin
+flashallwin () { 
+  while true;
+  do
+    pids=" $(pidof $@) "
+    wmctrl -lp | while read identity desktop_number PID window_title; do 
+      if [ "${pids/ $PID }" != "$pids" ]; then
+        wmctrl -ia $identity
+        xdotool key Super+n
+      fi
+    done
+    sleep 0.8;
+    wmctrl -lp | while read identity desktop_number PID window_title; do 
+      if [ "${pids/ $PID }" != "$pids" ]; then
+        wmctrl -ia $identity
+        xdotool key Super+n
+      fi
+    done
+    read -s -n1 -t0.8 && break;
+  done;
+}
+
+# flash ( invert color of ) the entire screen ( aka all the OS ), so as to alert something not's right ..
 # usage : flashos
 flashos () { while true; do xcalib -i -a; sleep 0.8; xcalib -i -a; read -s -n1 -t0.8 && break; done; }
+
+
+# MAYBE TO MOVE TO ANOTHER FILE
+foregroundallwin(){
+  pids=" $(pidof $@) "
+  if [ "$pids" = "  " ]; then # the string "  " contain two spaces
+    echo "There is no program named '$@' opened at the moment."
+    exit 1
+  fi
+  wmctrl -lp | while read identity desktop_number PID window_title; do 
+    if [ "${pids/ $PID }" != "$pids" ]; then
+      wmctrl -ia $identity
+    fi
+  done
+}

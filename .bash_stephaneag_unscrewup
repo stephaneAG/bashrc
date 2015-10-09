@@ -1,0 +1,5 @@
+# useful when something went wrong & we're stuck in a login /lightdm loop even after rebooting
+stag_exitLoginLoop(){
+  sudo mv ~/.Xauthority ~/.Xauthority.backup
+  sudo service lightdm restart
+}

@@ -1,0 +1,22 @@
+# get hex's out of glyphs/symbols/chars
+# usage: hexFromGlyph ☠ ✿
+#        ===> \xE2\x98\xA0
+#             \xE2\x9C\xBF
+#        hexFromGlyph -n ☠ ✿
+#        ===> \xE2\x98\xA0 \xE2\x9C\xBF
+#
+# DONE: maybe a quick check if 1st arg matches '-n', in which case we shouldn't print a new line after each glyph's hex
+#hexFromGlyph(){  for glyph in "$@"; do printf "\\\x%s" $(printf "$glyph"|xxd -p -c1 -u); echo; done }
+# DONE: check if last param & if so, don't append outputSeparator but instead 'echo;'
+#hexFromGlyph(){
+#  if [ "$1" == "-n" ]; then outputSeparator=' '; shift; else outputSeparator='\n'; fi;
+#  for glyph in "$@"; do printf "\\\x%s" $(printf "$glyph"|xxd -p -c1 -u); echo -n -e "$outputSeparator"; done
+#  if [ "$outputSeparator" == " " ]; then echo; fi;
+#}
+# handles last param 'echo;' stuff
+hexFromGlyph(){
+  if [ "$1" == "-n" ]; then outputSeparator=' '; shift; else outputSeparator='\n'; fi;
+  glyphs=( "$@" )
+  for glyph in "${glyphs[@]::${#glyphs[@]}-1}"; do printf "\\\x%s" $(printf "$glyph"|xxd -p -c1 -u); echo -n -e "$outputSeparator"; done
+  printf "\\\x%s" $(printf "${glyphs[@]: -1:1}"|xxd -p -c1 -u); echo;
+}

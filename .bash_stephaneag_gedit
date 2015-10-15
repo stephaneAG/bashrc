@@ -1,0 +1,2 @@
+# gedit fix for these damn error message I really don't care about ..
+alias gedit='gedit 2>/dev/null &'

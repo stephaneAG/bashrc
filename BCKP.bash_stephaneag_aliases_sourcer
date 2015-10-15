@@ -1,0 +1,94 @@
+# the current file is itself sourced at the end of the .bashrc file
+# it's used to source all the necessary aliases for a system
+# it's only goal is to help in keeping the sourcing easier to maintain
+# 
+# syntax
+#if [ -f ~/.bash_stephaneag_functions ]; then  . ~/.bash_stephaneag_functions; fi
+# or with a quick helper
+# stag_test(){ if [ -f "${1}" ]; then  . "${1}"; fi }
+#
+# Nb: we could have a helper to add calls to the first one to the current file for each aliases file on the repo
+
+
+# quick helper
+#stag_checkAndSource(){ if [ -f "${1}" ]; then  . "${1}"; fi }
+#stag_checkAndSource(){ if [ -f "${1}" ]; then  . "${1}"; echo "Sourced: "${1##/*}""; fi }
+#stag_checkAndSource(){ if [ -f "${1}" ]; then echo "Sourcing: ${1}"; . "${1}"; fi }
+#stag_checkAndSource(){ if [ -f "${1}" ]; then echo "Sourcing: ${1##*/}"; . "${1}"; fi }
+# added littl' tick/cross glyphs to quickly diff stuff out
+#stag_checkAndSource(){ if [ -f "${1}" ]; then echo -e "\xE2\x9c\x93 Sourcing: ${1##*/}"; . "${1}"; else echo -e "\xE2\x9C\x97 Missing: ${1##*/}"; fi }
+# added color
+stag_checkAndSource(){ if [ -f "${1}" ]; then echo -e "\033[;32m\xE2\x9c\x93\033[m Sourcing: ${1##*/}"; . "${1}"; else echo -e "\033[;31m\xE2\x9C\x97\033[m Missing: ${1##*/}"; fi }
+# we only want file starting with ".bash_stephaneag_" & different than ".bash_stephaneag_aliases_sourcer"
+# nb: we could also exclude the ".bash_stephaneag_aliases"/".bash_stephaneag_functions", but these 'll be updated
+
+
+## ---------------------------------------
+# replacement for the following set -> "one-liner to source them all" ;P
+# wip
+#for f in ~/bashrc/.bash_stephaneag_*; do [[ ""${f##*/}"" != ".bash_stephaneag_aliases_sourcer" ]] && echo "Processing: ${f##*/}" || echo "Skipping: $f"; done
+# https://regex101.com/r/xQ3fK7/1 ==> /^.bash_stephaneag_(aliases|aliases|functions)?(_sourcer)?$/gm
+# aDummy="/home/stephaneag/bashrc/.bash_stephaneag_aliases_sourcerer"
+# [[ ! "${aDummy##*/}" =~ ^.bash_stephaneag_(aliases|aliases|functions)?(_sourcer)?$ ]] && echo "ok !" || echo "skipping .."
+#for f in ~/bashrc/.bash_stephaneag_*; do [[ ! "${f##*/}" =~ ^.bash_stephaneag_(aliases|aliases|functions)?(_sourcer)?$ ]] && echo "Processing: ${f##*/}" || echo "Skipping: $f"; done
+# TESTED & READY:
+#for f in ~/bashrc/.bash_stephaneag_*; do [[ ! "${f##*/}" =~ ^.bash_stephaneag_(aliases|aliases|functions)?(_sourcer)?$ ]] && stag_checkAndSource "$f" || echo "Skipping: ${f##*/}"; done
+# added littl' glyphs to quickly diff stuff out
+#for f in ~/bashrc/.bash_stephaneag_*; do [[ ! "${f##*/}" =~ ^.bash_stephaneag_(aliases|aliases|functions)?(_sourcer)?$ ]] && stag_checkAndSource "$f" || echo -e "\xE2\xA6\xBF Skipping: ${f##*/}"; done
+# switched back to original glyph ( but love \xE2\xA8\x80 ) & added color
+for f in ~/bashrc/.bash_stephaneag_*; do [[ ! "${f##*/}" =~ ^.bash_stephaneag_(aliases|aliases|functions)?(_sourcer)?$ ]] && stag_checkAndSource "$f" || echo -e "\033[;34m\xE2\xA6\xBF\033[m Skipping: ${f##*/}"; done
+## ---------------------------------------
+
+
+## - aliases sets -
+
+#stag_checkAndSource .bash_stephaneag_path  # directly sourced in ".bashrc", right before the current file
+
+#stag_checkAndSource ~/bashrc/.bash_stephaneag_aliases
+#stag_checkAndSource ~/bashrc/.bash_stephaneag_functions
+
+## ---- TO BE DELETED : START ---- ##
+# Nb/info: the below stuff ( mess ? ) is (hopefully !) replaced by the above one-liner
+# we can still hardcode stuff here, but it'be prettier to keep it clean to avoid the hassle .. 
+
+#stag_checkAndSource ~/bashrc/.bash_stephaneag_aliasrunner
+#stag_checkAndSource ~/bashrc/.bash_stephaneag_android
+#stag_checkAndSource ~/bashrc/.bash_stephaneag_archives
+#stag_checkAndSource ~/bashrc/.bash_stephaneag_bluetooth
+#stag_checkAndSource ~/bashrc/.bash_stephaneag_camelcase
+#stag_checkAndSource ~/bashrc/.bash_stephaneag_cappind
+#stag_checkAndSource ~/bashrc/.bash_stephaneag_cron
+#stag_checkAndSource ~/bashrc/.bash_stephaneag_desktop
+#stag_checkAndSource ~/bashrc/.bash_stephaneag_digitalocean
+#stag_checkAndSource ~/bashrc/.bash_stephaneag_emotivepoc
+#stag_checkAndSource ~/bashrc/.bash_stephaneag_gnometerminal
+#stag_checkAndSource ~/bashrc/.bash_stephaneag_gnuscreen
+# history-related helpers
+#stag_checkAndSource ~/bashrc/.bash_stephaneag_history
+#stag_checkAndSource ~/bashrc/.bash_stephaneag_iOS
+#stag_checkAndSource ~/bashrc/.bash_stephaneag_ide
+#stag_checkAndSource ~/bashrc/.bash_stephaneag_images
+#stag_checkAndSource ~/bashrc/.bash_stephaneag_ioiootg
+#stag_checkAndSource ~/bashrc/.bash_stephaneag_japanese
+#stag_checkAndSource ~/bashrc/.bash_stephaneag_json
+#stag_checkAndSource ~/bashrc/.bash_stephaneag_laptoplid
+#stag_checkAndSource ~/bashrc/.bash_stephaneag_madtoyslab
+#stag_checkAndSource ~/bashrc/.bash_stephaneag_mail
+#stag_checkAndSource ~/bashrc/.bash_stephaneag_matrix
+#stag_checkAndSource ~/bashrc/.bash_stephaneag_network
+#stag_checkAndSource ~/bashrc/.bash_stephaneag_ps1
+#stag_checkAndSource ~/bashrc/.bash_stephaneag_qt
+#stag_checkAndSource ~/bashrc/.bash_stephaneag_randtype
+#stag_checkAndSource ~/bashrc/.bash_stephaneag_scriptsdb
+#stag_checkAndSource ~/bashrc/.bash_stephaneag_search
+#stag_checkAndSource ~/bashrc/.bash_stephaneag_signal
+#stag_checkAndSource ~/bashrc/.bash_stephaneag_systemcommons
+#stag_checkAndSource ~/bashrc/.bash_stephaneag_ucs
+#stag_checkAndSource ~/bashrc/.bash_stephaneag_vm
+#stag_checkAndSource ~/bashrc/.bash_stephaneag_vnc
+#stag_checkAndSource ~/bashrc/.bash_stephaneag_warollelectronicat
+#stag_checkAndSource ~/bashrc/.bash_stephaneag_wiki
+#stag_checkAndSource ~/bashrc/.bash_stephaneag_windaube
+#stag_checkAndSource ~/bashrc/.bash_stephaneag_work
+#stag_checkAndSource ~/bashrc/.bash_stephaneag_zenbook
+## ---- TO BE DELETED : END ---- ## 

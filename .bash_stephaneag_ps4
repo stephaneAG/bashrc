@@ -1,0 +1,8 @@
+# nifty additions to the existing set of $PS ;p
+
+# the following displays the filename & the line being subject to debugging:
+PS4="\033[01;32m[D]\033[m \e[38;5;202m$0 \e[m[\033[01;32m$LINENO\033[m]\e[38;5;202m +\033[m "
+
+# and the following provides a quick way to debug stuff ;D
+debug(){ set -x; $@; set -; }
+# ex usage: debug echo lol mamamia

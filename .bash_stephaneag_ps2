@@ -1,0 +1,2 @@
+# to go along with my fresh new $PS1, the following 'll, I hope, help in highlight better the multilines commands ;p
+PS2="\[\033[01;32m\] > \[\033[00m\]"

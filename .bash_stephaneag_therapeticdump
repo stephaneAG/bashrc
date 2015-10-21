@@ -1,0 +1,2 @@
+# haha, some dumb ranom cat to hexdump, indeed nice to look at ;p
+stag__therapeticdump(){ cat /dev/urandom | hexdump -C | grep "ca fe"; }

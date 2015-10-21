@@ -1,2 +1,2 @@
 # quick fix to be able to have the PopcornTime app's window present on every desktop & above all other windows
-wmctrl -r "Popcorn Time" -b toggle,sticky,above
+stag__popcorntime_sticky(){ wmctrl -r "Popcorn Time" -b toggle,sticky,above; }

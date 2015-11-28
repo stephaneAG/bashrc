@@ -19,3 +19,8 @@ alias stag__network__arpscan_LAN_devices_grepped='stag__network__arpscan_LAN_dev
 stag__network__list_LAN_devices_formatted(){
   printf "\033[1;34m%s\033[0m\n" "$(stag__network__list_LAN_devices | grep -o -P 'MAC Address: .*|192.*')"
 }
+
+# related to fixing networking, that sometimes gets stuck in <something unknown yet>
+stag__network__fixWifi(){
+  sudo service network-manager restart
+}

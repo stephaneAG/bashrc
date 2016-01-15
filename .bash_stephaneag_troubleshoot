@@ -1,0 +1,21 @@
+# .bash_stephaneag_troubleshoot
+#
+# holds useful functions when the computer starts hanging .. maybe because too much browser windows & tabs are open ? ;p
+
+# get PIDs of all intances of a specific program
+# 'ps' or 'ps au'
+
+# pause all intances of a specific program
+stag__troubleshoot_pauseInstancesOf()
+  pgrep "$1" | xargs kill -STO
+}
+
+# resume all intances of a specific program
+stag__troubleshoot_pauseInstancesOf()
+  pgrep "$1" | xargs kill -CONT
+}
+
+# get the PID of a window by clicking on it
+stag__troubleshoot_getWindowPID(){
+  xprop | awk '/PID/  {print $3}
+}
